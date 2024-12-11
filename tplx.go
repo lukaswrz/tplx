@@ -19,10 +19,6 @@ var (
 )
 
 // Renderer is an interface for rendering templates.
-//
-// Render writes the output of the specified template to the provided writer. The
-// name parameter specifies the template to execute, data provides the context
-// data for the template, and funcs provides additional template functions.
 type Renderer interface {
 	Render(w io.Writer, name string, data any, funcs template.FuncMap) error
 }
