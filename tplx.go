@@ -60,22 +60,22 @@ func NewRenderer(fsys fs.FS, spec Spec, funcs template.FuncMap) (Renderer, error
 		m: make(map[string]*template.Template, len(spec)),
 	}
 
-	for name, pairs := range spec {
+	for name, metas := range spec {
 		inc := false
 
 		t := template.New(name).Funcs(funcs)
 
-		for _, pair := range pairs {
-			if pair.Name == name {
+		for _, meta := range metas {
+			if meta.Name == name {
 				inc = true
 			}
 
-			text, err := fs.ReadFile(fsys, pair.Path)
+			text, err := fs.ReadFile(fsys, meta.Path)
 			if err != nil {
 				return nil, fmt.Errorf("unable to read template file: %w", err)
 			}
 
-			t = t.New(pair.Name).Funcs(pair.Funcs)
+			t = t.New(meta.Name).Funcs(meta.Funcs)
 
 			t, err = t.Parse(string(text))
 			if err != nil {
